@@ -1,0 +1,23 @@
+{
+  "name": "metodos",
+  "version": "1.0.0",
+  "description": "Ejercicio ejemplo diferentes metodos GET POST DELETE",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/JefersonYandun/Metodos.git"
+  },
+  "author": "Jeferson Yandun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JefersonYandun/Metodos/issues"
+  },
+  "homepage": "https://github.com/JefersonYandun/Metodos#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2"
+  }
+}
