@@ -1,41 +1,49 @@
-
-
 const express = require('express');
 const app = express();
 const port = 3000;
 
-// Simulación de una base de datos de productos
-let productos = [
-    { id: 1, nombre: 'Producto A', precio: 10.0 },
-    { id: 2, nombre: 'Producto B', precio: 15.0 },
+// Simulación de una base de datos de tareas
+let tasks = [
+    { id: 1, description: 'Learn Node.js', completed: false },
+    { id: 2, description: 'Learn Express', completed: false },
 ];
 
-// formato JSON
+// Middleware para manejar JSON
 app.use(express.json());
 
-// ruta formato (GET)
-app.get('/productos', (req, res) => {
-    res.json(productos);
+// Ruta para obtener todas las tareas (GET)
+app.get('/tasks', (req, res) => {
+    res.json(tasks);
 });
 
-const body=require('body-parser');
-app.use(body.urlencoded({extended:true}));
-
-
-// Ruta  nuevo producto (POST)
-app.post('/productos', (req, res) => {
-    const nuevoProducto = req.body;
-    nuevoProducto.id = productos.length + 1;
-    productos.push(nuevoProducto);
-    res.status(201).json(nuevoProducto);
+// Ruta para agregar una nueva tarea (POST)
+app.post('/tasks', (req, res) => {
+    const newTask = req.body;
+    newTask.id = tasks.length ? tasks[tasks.length - 1].id + 1 : 1;
+    tasks.push(newTask);
+    res.status(201).json(newTask);
 });
 
-// Ruta para eliminar un producto  ID (DELETE)
-app.delete('/productos/:id', (req, res) => {
+// Ruta para actualizar una tarea existente por ID (PUT)
+app.put('/tasks/:id', (req, res) => {
     const id = parseInt(req.params.id, 10);
-    productos = productos.filter(producto => producto.id !== id);
+    const taskIndex = tasks.findIndex(task => task.id === id);
+
+    if (taskIndex === -1) {
+        return res.status(404).json({ error: 'Task not found' });
+    }
+
+    tasks[taskIndex] = { ...tasks[taskIndex], ...req.body };
+    res.json(tasks[taskIndex]);
+});
+
+// Ruta para eliminar una tarea por ID (DELETE)
+app.delete('/tasks/:id', (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    tasks = tasks.filter(task => task.id !== id);
     res.status(204).send(); // Respuesta exitosa sin contenido
 });
+
 
 // Iniciar el servidor
 app.listen(3000, () => { // Utiliza `app` para iniciar el servidor
